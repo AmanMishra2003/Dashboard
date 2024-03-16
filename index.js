@@ -36,7 +36,7 @@ app.get('/chart',(req,res)=>{
    const body = req.query
    if(body.select1==="Institution-wise-Studies"){
       res.redirect('/Institution-wise-Studies')
-   }else if(body.select1==="Studies Conducted"){
+   }else if(body.select1==="Studies-Conducted"){
       res.redirect("/")
    }else if(body.select1==="Institution-category-wise"){
          const id = body.select2;
