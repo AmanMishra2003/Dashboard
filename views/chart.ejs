@@ -1,0 +1,191 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="CSS/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Dashboard</title>
+  </head>
+ <body>
+    <header class="">
+        <div class="row w-100 mb-3 d-flex justify-content-center">
+            <div class="col-3 bg-white p-1 d-flex align-items-center justify-content-center">
+                <img src="images/bg.png" alt="" class="text-black" style="height: 10rem; aspect-ratio: 1/1;">
+            </div>
+            <div class="col-8">
+                <div class="banner bg-info h-75 d-flex align-items-center justify-content-center ">
+                    space for banner
+                </div>
+                <div class="title bg-success text-center py-2">
+                    space for title
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="">
+            <div class="row ">
+                <div class="col-3 h-100 border-end" >
+                    <form action="/chart" method="GET" class="px-5 pt-3">
+                        <div class="py-3">
+                            <div class="py-2 h5 ">Select:-</div>
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="select1">
+                                <option selected>Select</option>
+                                <option value="Studies-Conducted" >Studies Conducted</option>
+                                <option value="Subject-wise">Subject-wise</option>
+                                <option value="Theme">Theme</option>
+                                <option value="Institution-wise-Studies">Institution-wise Studies</option>
+                                <option value="Institution-category-wise">Institution-category wise</option>
+                                <option value="State-wise">State-wise</option>
+                                <option value="Gender-wise-Studies">Gender-wise Studies</option>
+                                <option value="Budget-Sanctioned">Budget Sanctioned</option>
+                                <option value="Manpower-Employed">Manpower Employed</option>
+                                <option value="Publications">Publications</option>
+                                <option value="Patents">Patents</option>
+                              </select>
+                        </div>
+                        
+                        <div class="py-3">
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="select2">
+                                <!-- <option selected> Select</option> -->
+                                <option value="All"> All studies</option
+                                <% for( let x of selectOption) { %>
+                                    <option value="<%= x %>"><%= x %></option>
+                                <% } %>
+                              </select>
+                        </div>
+
+                        <div class="py-3">
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="select3">
+                                <option value="Current" >Current</option>
+                                <option value="Cumulative" selected>Cumulative</option>
+                              </select>
+                        </div>
+
+                        
+                            <button type="submit" class="btn btn-success w-100 mb-3">Draw Graph</button>
+                       
+
+                    </form>
+                    <!-- <div class="px-5 pb-3 border-top">
+                        <div class="py-2 h5 ">Filter By:-</div>
+                        <div class="py-3">
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" class="yearFrom">
+                                <option selected> From(Year)</option>
+                                <%// for(let x of Object.keys(counts)) { %>
+                                    <option value="<%=// x %>"> <%= //x %></option>
+                                <%// } %>
+                            </select>
+                        </div>
+                        <div class="py-3">
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example" class="yearTo">
+                                <option selected>To (Year)</option>
+                                <% //for(let x of Object.keys(counts)) { %>
+                                    <option value="<%=// x %>"> <%=// x %></option>
+                                <%// } %>
+                            </select>
+                        </div>
+                        
+                       
+                            <button onclick=filterChart() class="btn btn-danger w-100 ">Filter Graph</button>
+                        
+                        
+                      </div> -->
+                    
+                </div>
+                <div class="col-9 d-flex justify-content-center align-items-center h-100 ">
+                    <div class="p-4 rounded w-100 h-100 bg-white">
+                        <canvas class="" id="myChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        // function filterChart(e){
+        //     // e.preventDefault();
+        //     // e.stopPropagation();
+        //     // console.log(e)
+        //     const yearFrom = document.getElementsByClassName('yearFrom').value;
+        //     console.log(yearFrom)
+        //     const yearTo = document.getElementsByClassName('yearTo').value;
+        //     console.log(yearTo)
+        //     const filterData = myChart.data.labels
+        //     // const filterData= myChart.data.labels.filter(value=>value>=yearFrom&&value<=yearTo)
+        //     console.log(filterData)
+        // }
+       
+        const ctx = document.getElementById('myChart');
+        const keys = <%- JSON.stringify(Object.keys(counts));%>;
+        const values = <%- JSON.stringify(Object.values(counts)); %>
+        const label_x = <%- JSON.stringify(label_x);%>
+        const label_y = <%- JSON.stringify(label_y);%>
+        
+      
+        const myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: keys ,
+              datasets: [{
+                label: <%- JSON.stringify(id);%>,
+                data: values,
+                backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(255, 159, 64, 0.2)',
+                  'rgba(255, 205, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                  'rgb(255, 99, 132)',
+                  'rgb(255, 159, 64)',
+                  'rgb(255, 205, 86)',
+                  'rgb(75, 192, 192)',
+                  'rgb(54, 162, 235)',
+                  'rgb(153, 102, 255)',
+                  'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+              }]
+          },
+
+          options: {
+            scales: {
+              x:{
+                title:{
+                  display: true,
+                  text: label_x
+                },
+              },
+              y: {
+                title:{
+                  display: true,
+                  text: label_y
+                },
+                display: true,
+                beginAtZero: true,
+
+              }
+            }
+          }
+        });
+        // console.log(myChart)
+
+        
+    
+    </script>
+    
+       
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
