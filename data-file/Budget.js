@@ -1,4 +1,4 @@
-const data = require('./data')
+const data = require('../data')
 
 const year = []
 for(let x of data){
@@ -11,10 +11,10 @@ year.forEach((x) => {
     counts[x] = (counts[x] || 0) + 1;
 });
 
-module.exports.theme_obj = {
+module.exports.budget_obj = {
     year: yearDis,
     counts: counts,
-    Applied :[0,1,1,1,1,2,0],
-    Basic :[1,1,4,2,1,0,1]
+    SumOfBudgetSanctioned :[84.82,120.03,340.02,135.3,124.77,87.74,90.43],
+    SumOfBudgetSpent :[66.71,117.99,326.57,120.21,124.6,83.24,75.07]
 }
 

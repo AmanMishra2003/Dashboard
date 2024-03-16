@@ -3,7 +3,7 @@
     <header class="item">
         <div class="row w-100 mb-3 d-flex justify-content-center">
             <div class="col-3 bg-white p-1 d-flex align-items-center item justify-content-center">
-                <img src="images/bg.png" alt="" class="text-black" style="height: 10rem; aspect-ratio: 1/1;">
+                <img src="/images/bg.png" alt="" class="text-black" style="height: 10rem; aspect-ratio: 1/1;">
             </div>
             <div class="col-8">
                 <div class="banner bg-info h-75 d-flex align-items-center justify-content-center ">
@@ -41,7 +41,7 @@
                         <div class="py-3">
                             <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="select2">
                                 <!-- <option selected> Select</option> -->
-                                <option value="All"> All studies</option
+                                <option value="All"> All studies</option>
                                 <% for( let x of selectOption) { %>
                                     <option value="<%= x %>"><%= x %></option>
                                 <% } %>
@@ -60,7 +60,7 @@
                        
 
                     </form>
-                    <!-- <div class="px-5 pb-3 border-top">
+                    <div class="px-5 pb-3 border-top">
                         <div class="py-2 h5 ">Filter By:-</div>
                         <div class="py-3">
                             <select class="form-select form-select-sm" aria-label=".form-select-sm example" class="yearFrom">
@@ -83,7 +83,7 @@
                             <button onclick=filterChart() class="btn btn-danger w-100 ">Filter Graph</button>
                         
                         
-                      </div> -->
+                      </div>
                     
                 </div>
                 <div class="col-8 d-flex justify-content-center align-items-center h-100 ">
@@ -95,6 +95,7 @@
         </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
       <script>
         // function filterChart(e){
         //     // e.preventDefault();
@@ -108,7 +109,7 @@
         //     // const filterData= myChart.data.labels.filter(value=>value>=yearFrom&&value<=yearTo)
         //     console.log(filterData)
         // }
-       
+       Chart.register(ChartDataLabels)
         const ctx = document.getElementById('myChart');
         const label = <%- JSON.stringify(label);%>;
         const data1 = <%- JSON.stringify(data1); %>
@@ -125,22 +126,30 @@
                 label: <%- JSON.stringify(label1);%>,
                 data: data1,
                 backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(255, 99, 132)',
                 ],
                 borderColor: [
                   'rgb(255, 99, 132)',
                 ],
-                borderWidth: 1
+                borderWidth: 1,
+                datalabels:{
+                  align:"end",
+                  anchor:"end"
+                }
               },{
                 label: <%- JSON.stringify(label2);%>,
                 data: data2,
                 backgroundColor: [
-                  'rgba(255, 159, 64, 0.2)',
+                'rgba(153, 102, 255)',
                 ],
                 borderColor: [
-                  'rgb(255, 159, 64)',
+                'rgba(153, 102, 255)',
                 ],
-                borderWidth: 1
+                borderWidth: 1,
+                datalabels:{
+                  align:"end",
+                  anchor:"end"
+                }
               }]
           },
 
@@ -161,6 +170,7 @@
                 },
                 display: true,
                 beginAtZero: true,
+                grace:"5%"
 
               }
             }

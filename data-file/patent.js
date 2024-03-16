@@ -1,4 +1,4 @@
-const data = require('./data')
+const data = require('../data')
 
 const year = []
 for(let x of data){
@@ -11,10 +11,10 @@ year.forEach((x) => {
     counts[x] = (counts[x] || 0) + 1;
 });
 
-module.exports.man_power_obj = {
+module.exports.patent_obj = {
     year: yearDis,
     counts: counts,
-    countOfProjectTitle :[1,2,5,3,2,2,1],
-    sumOfTotalManpowerEmployed :[6,10,24,13,7,10,4]
+    PatentFiled :[2,8,18,3,8,7,1],
+    PatentGranted :[1,3,9,4,2,2,0]
 }
 

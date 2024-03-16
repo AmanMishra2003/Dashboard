@@ -1,13 +1,13 @@
 const express = require('express')
 const data = require('./data')
-const {category_obj} = require('./category-wise')
-const {subject_obj} = require('./subject')
-const {theme_obj} = require('./theme')
-const {gender_obj} = require('./gender')
-const {man_power_obj} = require('./man-power')
-const {patent_obj} = require('./patent')
-const {publication_obj} = require('./publication')
-const {budget_obj} = require('./Budget')
+const {category_obj} = require('./data-file/category-wise')
+const {subject_obj} = require('./data-file/subject')
+const {theme_obj} = require('./data-file/theme')
+const {gender_obj} = require('./data-file/gender')
+const {man_power_obj} = require('./data-file/man-power')
+const {patent_obj} = require('./data-file/patent')
+const {publication_obj} = require('./data-file/publication')
+const {budget_obj} = require('./data-file/Budget')
 const path = require('path');
 // const { count } = require('console');
 const port = 3000;
@@ -49,7 +49,8 @@ app.get('/chart',(req,res)=>{
    }else if(body.select1==="Gender-wise-Studies"){
       res.redirect('/gender-wise')
    }else if(body.select1==="Manpower-Employed"){
-      res.redirect('/Manpower-Employed')
+      const id = body.select2;
+      res.redirect(`/Manpower-Employed/${id}`)
    }else if(body.select1==="Publications"){
       res.redirect('/Publications')
    }else if(body.select1==="Patents"){
@@ -66,7 +67,7 @@ app.get('/chart',(req,res)=>{
 })
 
 app.get('/Institution-wise-Studies',(req,res)=>{
-   let Institution = [];
+      let Institution = [];
       let counts = {};
       for(let x of data){
          Institution.push(x.Implementing_institute)
@@ -88,7 +89,6 @@ app.get('/Institution-wise-Studies',(req,res)=>{
 app.get('/Institution-category-wise/:id',(req,res)=>{
    const {id} = req.params
    const selectOption =[
-      "All Studies",
       "Academic",
       "Research"
    ]
@@ -105,29 +105,6 @@ app.get('/Institution-category-wise/:id',(req,res)=>{
   
 })
 
-// app.get('/acadamic',(req,res)=>{
-//    const selectOption =[
-//       "All Studies",
-//       "Academic Institute",
-//       "Research Institure"
-//    ]
-//    const label_y= "Number of Studies";
-//    const label_x="Year";
-//    const counts = createObject(category_obj.year, category_obj.Academic_inst)
-//    res.render("chart", {counts, label_y, label_x, selectOption})
-// })
-
-// app.get('/research',(req,res)=>{
-//    const selectOption =[
-//       "All Studies",
-//       "Academic Institute",
-//       "Research Institure"
-//    ]
-//    const label_y= "Number of Studies";
-//    const label_x="Year";
-//    const counts = createObject(category_obj.year, category_obj.Research_inst)
-//    res.render("chart", {counts, label_y, label_x, selectOption})
-// })
 
 app.get('/state-wise',(req,res)=>{
    const id = "state";
@@ -141,7 +118,6 @@ app.get('/state-wise',(req,res)=>{
    });
    console.log(counts)
    const selectOption =[
-      "All States",
    ]
    const label_y= "Number of Studies";
    const label_x="State";
@@ -151,7 +127,6 @@ app.get('/state-wise',(req,res)=>{
 app.get('/theme/:id',(req,res)=>{
    const {id} = req.params
    const selectOption =[
-      "All Studies",
       "Applied",
       "Basic"
    ] 
@@ -220,18 +195,38 @@ app.get('/gender-wise',(req,res)=>{
       res.render("chart3", {label,data1,data2,label_x, label_y, selectOption, label1,label2})
 })
 
-app.get('/Manpower-Employed',(req,res)=>{
-      const label_y="Number of studies"
-      const label_x=""
-      const data1 = man_power_obj.countOfProjectTitle;
+app.get('/Manpower-Employed/:id',(req,res)=>{
+   const {id} = req.params;
+   const selectOption =[
+      "JRF-SRF-RA-PhD"
+   ]
+   const label_y="Number of studies"
+   const label_x=""
+   const data1 = man_power_obj.countOfProjectTitle;
+   const label = gender_obj.year
+
+   if(id==="All"){
       const data2 = man_power_obj.sumOfTotalManpowerEmployed;
-      const label = gender_obj.year
       const label1 = "Count of Project Title"
       const label2 = "Sum of Total Manpower Employed"
-      const selectOption =[
-         "All States",
-      ]
+      console.log(selectOption)
       res.render("chart3", {label,data1,data2,label_x, label_y, selectOption, label1,label2})
+   }else{
+      const data2 = man_power_obj.JRF;
+      const data3 = man_power_obj.SRF;
+      const data4 = man_power_obj.ResearchAssociate;
+      const data5 = man_power_obj.phD;
+
+      const label1 = "Count of Project Title"
+      const label2 = "Sum of Manpower Employed(JRF)"
+      const label3 = "Sum of Manpower Employed(SRF)"
+      const label4 = "Sum of Manpower Employed(ResearchAssociate)"
+      const label5 = "Sum of Manpower Employed(phD)"
+      
+      res.render("chart5", {label,data1,data2,data3,data4,data5,label_x, label_y, selectOption, label1,label2,label3,label4,label5})
+   }
+      
+      
 })
 
 app.get('/Publications',(req,res)=>{

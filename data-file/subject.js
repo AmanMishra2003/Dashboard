@@ -1,4 +1,4 @@
-const data = require('./data')
+const data = require('../data')
 
 const year = []
 for(let x of data){

@@ -1,4 +1,4 @@
-const data = require('./data')
+const data = require('../data')
 
 const year = []
 for(let x of data){
@@ -11,10 +11,10 @@ year.forEach((x) => {
     counts[x] = (counts[x] || 0) + 1;
 });
 
-module.exports.publication_obj = {
+module.exports.category_obj = {
     year: yearDis,
     counts: counts,
-    countOfProjectTitle :[1,2,5,3,2,2,1],
-    sumOfTotalNumberOfPublication :[6,16,18,19,5,10,2]
+    Academic :[1,2,3,3,1,1,1],
+    Research :[0,0,2,0,1,1,0]
 }
 
